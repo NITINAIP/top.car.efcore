@@ -4,6 +4,8 @@ namespace top.car.service.Domain.Entities;
 [Table("CARS_DETAIL_BOOKING")]
 public class CarsDetailBooking : BaseEntityWithId
 {
+    [Column("CAR_REQ_DETAIL_ID")]
+    public int CarReqDetailId { get; set; }
     [Column("ITEM_NO")]
     public int? ItemNo { get; set; }
     [Column("CAR_TYPE")]
@@ -38,4 +40,7 @@ public class CarsDetailBooking : BaseEntityWithId
     public string? TransportDetail { get; set; }
     [Column("ORDER_BY")]
     public int? OrderBy { get; set; }
+
+    public CarsDetailReq? CarsDetailReq { get; set; }
+    public ICollection<CarsDetailTraveler> CarsDetailTravelers { get; set; } = [];
 }

@@ -34,4 +34,6 @@ public class CarsDetailReq : BaseEntityWithId
     public string? IoNo { get; set; }
     [Column("COST_COMP")]
     public int? CostComp { get; set; }
+
+    public ICollection<CarsDetailBooking> CarsDetailBookings { get; set; } = [];
 }
