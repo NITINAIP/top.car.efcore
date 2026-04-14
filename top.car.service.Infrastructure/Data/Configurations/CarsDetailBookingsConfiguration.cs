@@ -13,7 +13,8 @@ namespace top.car.service.Data.Configurations
             builder.HasMany(c => c.CarsDetailTravelers)
             .WithOne(s => s.CarsDetailBooking)
             .HasForeignKey(c => c.BookingId)
-            .HasPrincipalKey(b => b.ItemNo); 
+            .HasPrincipalKey(b => b.ItemNo)
+            ; 
         }
 
 

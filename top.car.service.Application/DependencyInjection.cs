@@ -16,6 +16,7 @@ public static class DependencyInjection
         //     options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
         services.AddScoped<IReqFromService, ReqFromService>();
+        services.AddScoped<IMasterDataService, MasterDataService>();
 
 
 

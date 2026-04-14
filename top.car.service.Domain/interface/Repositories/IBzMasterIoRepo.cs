@@ -1,4 +1,5 @@
 ﻿using top.car.service.Domain.Entities;
+using top.car.service.Domain.Interface;
 using top.car.service.Domain.Interface.Repositories;
 
-public interface IBzMasterIoRepo : IRepositoryRead<BzMasterIo>, IRepositoryWrite<BzMasterIo> { }
+public interface IBzMasterIoRepo : IRepositoryRead<BzMasterIo>, IRepositoryWrite<BzMasterIo>, ISelectionCommon { }

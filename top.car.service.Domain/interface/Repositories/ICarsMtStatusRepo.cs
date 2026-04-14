@@ -1,4 +1,5 @@
 ﻿using top.car.service.Domain.Entities;
+using top.car.service.Domain.Interface;
 using top.car.service.Domain.Interface.Repositories;
 
-public interface ICarsMtStatusRepo : IRepositoryRead<CarsMtStatus>, IRepositoryWrite<CarsMtStatus> { }
+public interface ICarsMtStatusRepo : IRepositoryRead<CarsMtStatus>, IRepositoryWrite<CarsMtStatus>, ISelectionCommon { }
