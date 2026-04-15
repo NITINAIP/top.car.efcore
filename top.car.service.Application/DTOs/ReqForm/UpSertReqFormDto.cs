@@ -3,6 +3,7 @@ namespace top.car.service.Application.DTOs.ReqForm;
 public class UpSertReqFormDto
 {
 
+    public int? Id { get; set; }
     public string DocumentNo { get; set; } = string.Empty;
     public string ReqUserName { get; set; } = string.Empty;
 

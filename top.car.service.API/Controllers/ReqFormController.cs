@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using top.car.service.API.Result;
+using top.car.service.Application.DTOs.ReqForm;
 using top.car.service.Application.Interface;
 
 [ApiController]
@@ -12,5 +13,12 @@ public class ReqFormController(IReqFromService service) : ControllerBase
     {
         var result = await _service.GetReqFromAsync(Id, cancellationToken);
         return Result.Ok(result, "GetReqFromAsync Success");
+    }
+
+    [HttpPost("save-req-form")]
+    public async Task<IActionResult> SaveReqFromAsync([FromBody] UpSertReqFormDto model, CancellationToken cancellationToken = default)
+    {
+        var result = await _service.SaveReqFromAsync(model, cancellationToken);
+        return Result.Ok(result, "SaveReqFromAsync Success");
     }
 }

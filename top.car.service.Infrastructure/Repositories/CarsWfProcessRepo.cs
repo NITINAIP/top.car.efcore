@@ -2,6 +2,7 @@
 using top.car.service.Domain.Entities;
 using top.car.service.Infrastructure.Data;
 using top.car.service.Infrastructure.Repositories.Abstractions;
+using Top.Car.Service.Domain.ValueObject;
 
 public class CarsWfProcessRepo(AppDbContext context) : Repository<CarsWfProcess>(context), ICarsWfProcessRepo
 {
@@ -13,12 +14,27 @@ public class CarsWfProcessRepo(AppDbContext context) : Repository<CarsWfProcess>
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<(string,int,int,int)> NewDocumentNoAsync(CancellationToken cancellationToken = default)
+    public async Task<Document> NewDocumentNoAsync(CancellationToken cancellationToken = default)
     {
         // Generate new document number in the format "CS00-YYMM-XXXX"
         var maxRunningNo = await context.CarsWfProcesses
         .MaxAsync(p => (int?)p.RunningNo, cancellationToken) ?? 0;
+        var maxId = await context.CarsWfProcesses
+        .MaxAsync(p => (int?)p.Id, cancellationToken) ?? 0;
         var newRunningNo = maxRunningNo + 1;
-        return ($"CS00-{DateTimeOffset.UtcNow:yyMM}-{newRunningNo.ToString("0000")}", DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, newRunningNo);
+        var documentWf = new DocumentWf($"CS00-{DateTimeOffset.UtcNow:yyMM}-{newRunningNo:0000}", maxId, DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, newRunningNo);
+        return new Document(documentWf);
+    }
+
+    public async Task<Document> NewDocumentNoByCarTypeAsync(int CarType, CancellationToken cancellationToken = default)
+    {
+        // Generate new document number in the format "CS{CarType}-YYMM-XXXX"
+        var maxRunningNo = await context.CarsWfProcesses
+        .MaxAsync(p => (int?)p.RunningNo, cancellationToken) ?? 0;
+        var maxId = await context.CarsWfProcesses
+        .MaxAsync(p => (int?)p.Id, cancellationToken) ?? 0;
+        var newRunningNo = maxRunningNo + 1;
+        var documentWf = new DocumentWf($"CS{CarType:00}-{DateTimeOffset.UtcNow:yyMM}-{newRunningNo:0000}", maxId, DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, newRunningNo);
+        return new Document(documentWf);
     }
 }

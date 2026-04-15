@@ -22,5 +22,34 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Travelers, opt => opt.MapFrom(src => src.CarsDetailTravelers));
 
         CreateMap<CarsDetailTraveler, CarsDetailTravelerDto>();
+
+        CreateMap<UpSertReqFormDto, CarsDetailReq>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.DocNo, opt => opt.MapFrom(src => src.DocumentNo))
+            .ForMember(dest => dest.CostComp, opt => opt.MapFrom(src => src.CostComp.HasValue ? (int?)decimal.Truncate(src.CostComp.Value) : null))
+            .ForMember(dest => dest.CarsDetailBookings, opt => opt.Ignore());
+
+        CreateMap<CarsDetailReqDto, CarsDetailBooking>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.CarReqDetailId, opt => opt.Ignore())
+            .ForMember(dest => dest.BusinessDocNo, opt => opt.MapFrom(src => src.BusinessDoc))
+            .ForMember(dest => dest.ReqType, opt => opt.MapFrom(src => ParseNullableInt(src.ReqType)))
+            .ForMember(dest => dest.ReqFrom, opt => opt.MapFrom(src => ParseNullableInt(src.ReqFrom)))
+            .ForMember(dest => dest.TransportType, opt => opt.MapFrom(src => ParseNullableInt(src.TransportType)))
+            .ForMember(dest => dest.CarsDetailTravelers, opt => opt.MapFrom(src => src.Travelers));
+
+        CreateMap<CarsDetailTravelerDto, CarsDetailTraveler>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.BookingId, opt => opt.Ignore());
+    }
+
+    private static int? ParseNullableInt(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        return int.TryParse(value, out var parsed) ? parsed : null;
     }
 }
